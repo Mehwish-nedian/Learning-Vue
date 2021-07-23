@@ -1,8 +1,9 @@
 <template>
   <form @submit.prevent = "submitData">
-    <div class="form-control">
+    <div class="form-control" :class="{invalid: inputIsInvalid}">
       <label for="user-name">Your Name</label>
-      <input id="user-name" name="user-name" type="text" v-model="userName"/>
+      <input id="user-name" name="user-name" type="text" v-model="userName" @blur="checkvalidity"/>
+      <p v-if="inputIsInvalid">This field is required!</p>
     </div>
     <div class="form-control">
       <label for="age">Your Age (Years)</label>
@@ -47,6 +48,11 @@
       </div>
     </div>
     <div>
+    <div>
+      <input id="terms" name="terms" type="checkbox" v-model="confirm"/>
+      <!-- For a single checkbox, no need to add value it retuns true when checked and false when uncheck-->
+      <label for="terms">Agree to Terms and conditions</label> 
+  </div>
       <button>Save Data</button>
     </div>
   </form>
@@ -59,10 +65,12 @@ export default {
       userAge : '',
       referrer : 'wom',
       interest : [],
+      confirm: false,
       /*For multiple checkboxes withthe same name, 
       it create group and start selecting them all when anyone is selected.
       To overcome this, we use array here and gives unique vaæue attributes to all checkboxes input*/
-      how: null
+      how: null,
+      inputIsInvalid : false
     }
   },
   methods:{
@@ -70,15 +78,20 @@ export default {
       
       console.log('Username ==> ' +this.userName);
       console.log('UserAge ==> ');
-      console.log(typeof(+this.userAge)); /* v-model and ref both store values type as string*/
+      console.log(typeof(+this.userAge)); // v-model and ref both store values type as string
       console.log(typeof(+this.$refs.age.value)); // To convert it into number use '+' sign
       console.log('Referrer ==> ' +this.referrer);
       console.log('Interest ==> ' +this.interest);
       console.log('How ==> ' +this.how);
-      /*
-      v-model uses two way binding at every character input(key up) fetches the value and assign to the variable
-      On the other hand, refs assigns value once when the data is submitted
-      */
+      console.log(this.confirm);
+    },
+    check(){
+      console.log(this.$refs.age.value);
+    },
+    checkvalidity(){
+      if(this.userName.trim()===''){
+        this.inputIsInvalid = true;
+      }
     }
   }
 }
@@ -96,7 +109,12 @@ form {
 .form-control {
   margin: 0.5rem 0;
 }
-
+.form-control.invalid input{
+  border-color: red
+}
+.form-control.invalid label{
+  color: red;
+}
 label {
   font-weight: bold;
 }
