@@ -9,85 +9,45 @@
       <label for="age">Your Age (Years)</label>
       <input id="age" name="age" type="number" v-model="userAge" ref="age"/>
     </div>
-    <div class="form-control">
-      <label for="referrer">How did you hear about us?</label>
-      <select id="referrer" name="referrer" v-model="referrer">
-        <option value="google">Google</option>
-        <option value="wom">Word of mouth</option>
-        <option value="newspaper">Newspaper</option>
-      </select>
-    </div>
-    <div class="form-control">
-      <h2>What are you interested in?</h2>
-      <div>
-        <input id="interest-news" name="interest" type="checkbox" value="news" v-model="interest"/>
-        <label for="interest-news">News</label>
-      </div>
-      <div>
-        <input id="interest-tutorials" name="interest" type="checkbox" value="tutorials" v-model="interest"/>
-        <label for="interest-tutorials">Tutorials</label>
-      </div>
-      <div>
-        <input id="interest-nothing" name="interest" type="checkbox" value="nothing" v-model="interest"/>
-        <label for="interest-nothing">Nothing</label>
-      </div>
-    </div>
-    <div class="form-control">
-      <h2>How do you learn?</h2>
-      <div>
-        <input id="how-video" name="how" type="radio" value="video" v-model="how"/>
-        <label for="how-video">Video Courses</label>
-      </div>
-      <div>
-        <input id="how-blogs" name="how" type="radio" value="blogs" v-model="how"/>
-        <label for="how-blogs">Blogs</label>
-      </div>
-      <div>
-        <input id="how-other" name="how" type="radio" value="other" v-model="how" />
-        <label for="how-other">Other</label>
-      </div>
-    </div>
     <div>
-    <div>
-      <input id="terms" name="terms" type="checkbox" v-model="confirm"/>
-      <!-- For a single checkbox, no need to add value it retuns true when checked and false when uncheck-->
-      <label for="terms">Agree to Terms and conditions</label> 
-  </div>
+       <div class='form-control'>
+         <rating-control v-model="rating"></rating-control>
+          <!--
+            By using v-model on custom components, Vue adds one special prop (modelValue)
+            and emit one event (update:modelValue) 
+          -->
+
+
+       </div>
+    
       <button>Save Data</button>
     </div>
   </form>
 </template>
 <script>
+import RatingControl from './RatingControl.vue'
 export default {
+  components:{
+    RatingControl
+  },
   data(){
     return{
       userName : '',
-      userAge : '',
-      referrer : 'wom',
-      interest : [],
-      confirm: false,
-      /*For multiple checkboxes withthe same name, 
-      it create group and start selecting them all when anyone is selected.
-      To overcome this, we use array here and gives unique vaæue attributes to all checkboxes input*/
-      how: null,
-      inputIsInvalid : false
+      userAge : '',     
+      inputIsInvalid : false,
+      rating: null
     }
   },
   methods:{
     submitData(){
       
       console.log('Username ==> ' +this.userName);
-      console.log('UserAge ==> ');
-      console.log(typeof(+this.userAge)); // v-model and ref both store values type as string
-      console.log(typeof(+this.$refs.age.value)); // To convert it into number use '+' sign
-      console.log('Referrer ==> ' +this.referrer);
-      console.log('Interest ==> ' +this.interest);
-      console.log('How ==> ' +this.how);
-      console.log(this.confirm);
+      console.log('UserAge ==> '+this.userAge);
+      console.log('Rating ==>');
+      console.log(this.rating); // This contains the value sent by modelValue and gets updated as the modelValue is updated
+      this.rating = null; // Since v-model uses two way binding, this will also reset modelValue to null
     },
-    check(){
-      console.log(this.$refs.age.value);
-    },
+   
     checkvalidity(){
       if(this.userName.trim()===''){
         this.inputIsInvalid = true;
