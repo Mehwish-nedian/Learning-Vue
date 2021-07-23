@@ -75,6 +75,10 @@ export default {
       console.log('Referrer ==> ' +this.referrer);
       console.log('Interest ==> ' +this.interest);
       console.log('How ==> ' +this.how);
+      /*
+      v-model uses two way binding at every character input(key up) fetches the value and assign to the variable
+      On the other hand, refs assigns value once when the data is submitted
+      */
     }
   }
 }
