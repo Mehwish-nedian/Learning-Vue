@@ -70,7 +70,7 @@ export default {
       
       console.log('Username ==> ' +this.userName);
       console.log('UserAge ==> ');
-      console.log(typeof(+this.userAge)); // v-model and ref both store values type as string
+      console.log(typeof(+this.userAge)); /* v-model and ref both store values type as string*/
       console.log(typeof(+this.$refs.age.value)); // To convert it into number use '+' sign
       console.log('Referrer ==> ' +this.referrer);
       console.log('Interest ==> ' +this.interest);
