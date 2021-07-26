@@ -1,4 +1,5 @@
 <template>
+<button @click="changeRoute">Change route</button>
   <ul>
     <user-item v-for="user in users" :key="user.id" :name="user.fullName" :role="user.role"></user-item>
   </ul>
@@ -12,6 +13,16 @@ export default {
     UserItem,
   },
   inject: ['users'],
+  methods:{
+    changeRoute(){
+      // do someting
+      /* To change the route programatically */
+      this.$router.push('/teams'); 
+      /* $router function is available to all the components since we have use app.use(router) */
+
+      /* $router also provides other functions (back, forward) */
+    }
+  }
 };
 </script>
 
