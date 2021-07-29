@@ -1,0 +1,83 @@
+<template>
+  <section>
+      <coach-filter @update-filters="setFilters"></coach-filter>
+  </section>
+  <section>
+    <base-card>
+      <div class="controls">
+        <base-button mode="outline">Refresh</base-button>
+        <base-button link to="/register">Register as Coach</base-button>
+      </div>
+      <p v-if="!hasCoaches">No coaches found</p>
+      <ul v-else>
+        <coach-item
+          v-for="coach in getCoaches"
+          :key="coach.id"
+          :id="coach.id"
+          :first-name="coach.firstName"
+          :last-name="coach.lastName"
+          :areas="coach.areas"
+          :rate="coach.hourlyRate"
+        ></coach-item>
+      </ul>
+    </base-card>
+  </section>
+</template>
+<script>
+
+import CoachItem from "../../components/coaches/coachItems.vue";
+import CoachFilter from "../../components/coaches/coachFilter.vue";
+export default {
+  components: {
+    CoachItem,
+    CoachFilter,
+  },
+  data(){
+      return{
+          activeFilters: {
+              frontend: true,
+              backend: true,
+              career: true
+          }
+      }
+  },
+  computed: {
+      getCoaches(){
+          const coaches =  this.$store.getters['coaches/getCoaches'];
+          return coaches.filter(coach=>{
+              if(this.activeFilters.frontend && coach.areas.includes('frontend')){
+                  return true;
+              }
+              if(this.activeFilters.backend && coach.areas.includes('backend')){
+                  return true;
+              }
+              if(this.activeFilters.career && coach.areas.includes('career')){
+                  return true;
+              }
+              return false;
+          })
+      },
+      hasCoaches(){
+          return this.$store.getters['coaches/hasCoaches']
+      }
+    
+  },
+  methods:{
+      setFilters(updatedFilters){
+          this.activeFilters = updatedFilters;
+      }
+  }
+};
+</script>
+<style scoped>
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+}
+</style>
