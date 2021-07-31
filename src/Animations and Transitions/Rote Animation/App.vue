@@ -31,11 +31,11 @@ button {
   transition: opacity 0.3s ease-in;
 }
 .route-enter-from,
-.route-button-laeve-to {
+.route-button-leave-to {
   opacity: 0;
 }
 .route-enter-to,
-.route-laeve-from {
+.route-leave-from {
   opacity: 1;
 }
 button:hover,
