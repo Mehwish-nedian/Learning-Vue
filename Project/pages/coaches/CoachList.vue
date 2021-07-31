@@ -1,15 +1,18 @@
 <template>
+<div>
+  <base-dialog v-if="error" title="An error has occured" :show="!!error" @close="error=null">{{error}}</base-dialog>
   <section>
       <coach-filter @update-filters="setFilters"></coach-filter>
   </section>
   <section>
     <base-card>
       <div class="controls">
-        <base-button mode="outline">Refresh</base-button>
+        <base-button mode="outline" @click="loadCoaches(true)">Refresh</base-button>
         <base-button v-if="!isCoach" link to="/register">Register as Coach</base-button>
       </div>
-      <p v-if="!hasCoaches">No coaches found</p>
-      <ul v-else>
+      
+      <base-spinner v-if="isLoading"></base-spinner>
+      <ul v-else-if="!isLoading && hasCoaches">
         <coach-item
           v-for="coach in getCoaches"
           :key="coach.id"
@@ -20,8 +23,10 @@
           :rate="coach.hourlyRate"
         ></coach-item>
       </ul>
+      <p v-else>No coaches found</p>
     </base-card>
   </section>
+</div>
 </template>
 <script>
 
@@ -34,6 +39,8 @@ export default {
   },
   data(){
       return{
+          error: null,
+          isLoading: false,
           activeFilters: {
               frontend: true,
               backend: true,
@@ -65,9 +72,22 @@ export default {
       }
     
   },
+  created(){
+    this.loadCoaches();
+  },
   methods:{
       setFilters(updatedFilters){
           this.activeFilters = updatedFilters;
+      },
+       async loadCoaches(refresh = false){
+        this.isLoading = true;
+        try{
+          await this.$store.dispatch('coaches/loadCoaches', {forceRefresh: refresh});
+        }
+        catch(error){
+          this.error = error.message || 'Something went wrong!'
+        }
+        this.isLoading = false;
       }
   }
 };

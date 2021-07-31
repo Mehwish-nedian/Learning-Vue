@@ -1,4 +1,5 @@
 <template>
+<div>
   <section>
     <base-card>
       <h2>{{ fullName }}</h2>
@@ -25,6 +26,7 @@
       <p>{{ description }}</p>
     </base-card>
   </section>
+</div>
 </template>
 <script>
 export default {
@@ -36,7 +38,10 @@ export default {
   },
   computed: {
     contactLink() {
-      return this.$route.path  +'/contact';
+      if(this.$route.path === `/coaches/${this.selectedCoach.id}`){
+        return this.$route.path  +'/contact';
+        }
+        return this.$route.path;
     },
     fullName() {
       return this.selectedCoach.firstName + " " + this.selectedCoach.lastName;
