@@ -6,7 +6,7 @@
             <base-badge v-for="area in areas" :key="area" :type="area" :title="area"></base-badge>
         </div>
         <div class="actions">
-            <base-button mode="outline" link :to="coachContactLink">Contact</base-button>
+            <base-button v-if="notSelf" mode="outline" link :to="coachContactLink">Contact</base-button>
             <base-button link :to="coachDetailsLink">View Details</base-button>
         </div>
     </li>
@@ -22,10 +22,13 @@ export default {
             return this.firstName+' '+this.lastName;
         },
         coachContactLink(){
-            return this.$route.path+'/' + this.id;
+            return this.$route.path+'/' + this.id + '/contact';
         },
         coachDetailsLink(){
             return this.$route.path+'/' + this.id
+        },
+        notSelf(){
+          return localStorage.getItem('userId') !==this.id; // To not show contact button for yourself in coachlist page
         }
     }
 }

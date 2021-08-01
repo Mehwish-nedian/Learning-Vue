@@ -8,8 +8,9 @@ export default {
             description: data.description,
             hourlyRate: data.rate
         }
+        const token = context.rootGetters.token;
        //const response = await fetch(`https://http-demo-87b5d-default-rtdb.firebaseio.com/coaches/${userId}.json`,{
-       const response = await fetch(`https://learning-vue-40341-default-rtdb.firebaseio.com/coaches/${userId}.json`,{  
+       const response = await fetch(`https://learning-vue-40341-default-rtdb.firebaseio.com/coaches/${userId}.json?auth=`+token,{  
        method: 'PUT',
             body: JSON.stringify(coach)
         })

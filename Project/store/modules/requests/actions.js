@@ -20,7 +20,8 @@ export default {
     },
     async fetchRequests(context){
       const coachId = context.rootGetters.userId;
-      const response = await fetch(`https://learning-vue-40341-default-rtdb.firebaseio.com/messages/${coachId}.json`);
+      const token = context.rootGetters.token;
+      const response = await fetch(`https://learning-vue-40341-default-rtdb.firebaseio.com/messages/${coachId}.json?auth=`+token);
       const responseData = await response.json();
       if(!response.ok){
           const error = new Error(responseData.message||'Failed to fetch');

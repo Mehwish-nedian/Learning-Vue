@@ -7,7 +7,7 @@
     </base-card>
   </section>
   <section>
-    <base-card>
+    <base-card v-if="!self">
       <header>
         <h2>Interested? Reach out now!</h2>
         <base-button link :to="contactLink">Contact</base-button>
@@ -54,6 +54,11 @@ export default {
     },
     rate(){
         return this.selectedCoach.hourlyRate;
+    },
+    self(){
+      const coachId = this.$route.params.id;
+      return coachId ===localStorage.getItem('userId');
+      // To not show contact div for yourself in coach details page
     }
   },
   created() {
