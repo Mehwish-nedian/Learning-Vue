@@ -1,0 +1,39 @@
+/***********************************App.vue*****************************************/
+<template>
+  <q-layout class="bg-indigo-1 text-grey-7" view="lHh Lpr lFf">
+    <the-header></the-header>    
+    <q-page-container class="main-container">
+      <router-view></router-view>  
+    </q-page-container>
+  </q-layout>
+</template>
+
+/*****************************PostContainer.vue**************************************/
+<template>
+ <div class="container">
+    <div class="left-container">
+        <navbar></navbar>
+        <post-card></post-card>
+    </div>
+    <div class="right-container">
+    <side-card></side-card>
+    </div>
+ </div>
+</template>
+<script>
+import Navbar from './layout/NavBar.vue';
+import postCard from './postCard.vue';
+import sideCard from './sideCard.vue';
+export default {
+    components: {
+        Navbar,
+        sideCard,
+        postCard
+    }
+}
+</script>
+<style scoped>
+.container{
+    display: flex;
+}
+</style>
